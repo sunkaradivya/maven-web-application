@@ -1,0 +1,31 @@
+node{
+
+def mavenHome = tool name: 'maven3.9.2'
+
+echo "Job name is: $Job_Name"
+echo "Node name is: $Node_Name"
+echo "Jenkins Home url is: $Jenkins_Home"
+properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')), [$class: 'JobLocalConfiguration', changeReasonComment: ''], pipelineTriggers([pollSCM('* * * * *')])])
+stage('checkoutcode'){
+git branch: 'development', credentialsId: 'cfd4a54a-ccbd-4227-94b6-650384d73b83', url: 'https://github.com/sunkaradivya/maven-web-application.git'
+}
+
+stage('build'){
+sh "${mavenHome}/bin/mvn clean package"
+}
+/*
+stage('ExcuteSonarqubeReport'){
+sh "${mavenHome}/bin/mvn clean sonar:sonar"
+}
+    
+stage('UploadArtifactsIntoNexus'){
+sh "${mavenHome}/bin/mvn clean deploy"
+}
+    
+stage('DeployAppIntoTomcatServer'){
+sshagent(['8d3b5422-c3c1-4ae9-aae5-e302e7bd0a42']) {
+       sh "scp -o StrictHostkeyChecking=no target/maven-web-application.war ec2-user@172.31.34.86:/opt/apache-tomcat-9.0.75/webapps"
+}    
+}
+*/    
+}
