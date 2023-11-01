@@ -9,7 +9,9 @@ maven 'maven3.9.5'
 stages{
 //checkout code stage
 stage('checkoutcode'){
+steps{
   git branch: 'master', git credentialsId: 'c04ff90f-11d5-411c-a400-338eb7e5e70b', url: 'https://github.com/sunkaradivya/maven-web-application.git' 
+}
 }
 }
 //build stage
