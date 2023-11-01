@@ -14,7 +14,7 @@ pipeline {
         stage('Build') {
             environment {
                 // Set the tool for this stage
-                def mavenHome = tool name: 'maven3.9.5', type: 'hudson.model.Maven$MavenInstallation'
+                def mavenHome = tool name: 'maven3.9.5', type: 'hudson.tasks.Maven$MavenInstallation'
                 PATH = "${mavenHome}/bin:${env.PATH}"
             }
             steps {
