@@ -1,24 +1,19 @@
 pipeline {
     agent any
+
+tools{
+maven 'maven'
+}
     
     stages {
         stage('Checkout code') {
             steps {
-                script {
-                    // Checkout code from Git
                     git branch: 'master', credentialsId: 'c04ff90f-11d5-411c-a400-338eb7e5e70b', url: 'https://github.com/sunkaradivya/maven-web-application.git' 
                 }
             }
-        }
 
         stage('Build') {
-            environment {
-                // Set the tool for this stage
-                def mavenHome = tool name: 'maven', type: 'hudson.tasks.Maven$MavenInstallation'
-                PATH = "${mavenHome}/bin:${env.PATH}"
-            }
             steps {
-                // Build using the specific Maven installation
                 sh "mvn clean package"
             }
         }
